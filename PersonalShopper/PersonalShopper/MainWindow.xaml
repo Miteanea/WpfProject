@@ -1,0 +1,71 @@
+﻿<Window x:Class="PersonalShopper.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        xmlns:ext="xceed.wpf.toolkit.Primitives.ShapeBase"
+        Title="MainWindow" Height="450" Width="800" Background="LightGray">
+
+    <Window.Resources>
+
+        <Style TargetType="StackPanel">
+            <Setter Property="Background" Value="Beige"/>
+            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Width" Value="Auto"/>
+            <Setter Property="Height" Value="Auto"/>
+        </Style>
+
+        <Style TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="Button">
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="Padding" Value="5" />
+        </Style>
+
+    </Window.Resources>
+    <Border Padding="10">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <!-- Yearly Expenses Graph-->
+            <Grid Name="YearlyExpenditure" Grid.Column="0" Grid.Row="0" 
+                  Margin ="10" Background="#fff"/>
+
+            <TextBlock Text="Graph PlaceHolder"/>
+
+
+
+            <!-- Buttons Panel-->
+            <Grid Name="ButtonsPanel" Grid.Column="1" Grid.Row="0" 
+                  Margin ="10" Background="BlanchedAlmond" >
+
+                <StackPanel VerticalAlignment="Center">
+                    <Button Name="AddExpButton" Click="Button_Click">Add Expense</Button>
+                    <Button>Expense Details</Button>
+                </StackPanel>
+
+            </Grid>
+            <!-- Pie-Chart -->
+            <Grid Name="PieChart" Grid.ColumnSpan="2" Grid.Row="1" HorizontalAlignment="Stretch" 
+                  Margin ="150 10 150 10" Background="BlanchedAlmond" >
+
+
+                    <TextBlock Text ="Graph PlaceHolder" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>
