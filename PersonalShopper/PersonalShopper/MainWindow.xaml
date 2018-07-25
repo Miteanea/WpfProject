@@ -7,14 +7,14 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" x:Class="PersonalShopper.MainWindow"
         mc:Ignorable="d"
         
-        Title="MainWindow" Height="450" Width="500" Background="LightGray"
-        WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        Title="MainWindow" MinHeight="450" MinWidth="500" Background="LightGray"
+        WindowStartupLocation="CenterScreen" ResizeMode="CanResize">
 
     <Window.Resources>
 
         <Style TargetType="{x:Type StackPanel}">
             <Setter Property="Background" Value="Beige"/>
-            <Setter Property="Margin" Value="10"/>
+            <Setter Property="Margin" Value="0"/>
             <Setter Property="Width" Value="Auto"/>
             <Setter Property="Height" Value="Auto"/>
         </Style>
@@ -40,50 +40,53 @@
                 <ColumnDefinition Width="2*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
-
             <!-- Yearly Expenses Graph-->
-            <Grid x:Name="YearlyExpenditure" Grid.Column="0" Grid.Row="0" Width="300"
-                  Margin ="10" Background="#fff"/>
+            <Canvas Grid.Column="0" Grid.Row="0" Background="White"/>
+            <Border BorderBrush="Black" BorderThickness="1">
 
-            <TextBlock Text="Graph PlaceHolder"/>
+                <Grid Margin="5">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="30"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
 
+                    <StackPanel Name ="YAxis" Orientation="Vertical" Grid.Row="1" Grid.Column="0"/>
+                    <StackPanel Name ="BarStack" VerticalAlignment="Bottom" Orientation="Horizontal" Grid.Row="1" Grid.Column="1" />
+                    <StackPanel Name ="XAxis" Orientation="Horizontal" Grid.Row="2" Grid.Column="1"/>
+
+                </Grid>
+            </Border>
             <!-- Buttons Panel-->
-            <Grid x:Name="ButtonsPanel" Grid.Column="1" Grid.Row="0" 
-                  Margin ="10" Background="BlanchedAlmond" >
-
+            <Grid x:Name="ButtonsPanel" Grid.Column="1" Grid.Row="0" Margin ="10" Background="BlanchedAlmond" >
                 <StackPanel VerticalAlignment="Center">
                     <Button x:Name="AddExpButton" Click="Button_Click" Content="Add Expense"/>
                     <Button Content="Expense Details"/>
                 </StackPanel>
-
             </Grid>
-            <Grid x:Name="PieChartGrid" Grid.ColumnSpan="2" Grid.Row="1">
-
-
-                <Border BorderBrush="Black" BorderThickness="1">
-                    <Grid>
+            <Grid x:Name="PieChartGrid" Grid.ColumnSpan="2" Grid.Row="1"  VerticalAlignment="Center" HorizontalAlignment="Center" MinHeight="170" MinWidth="250">
+                <Border BorderBrush="Black" BorderThickness="1" Padding="5">
+                    <Grid Width="Auto" Height="Auto">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-
                         <Grid Name="PieGraph" Grid.Column="0"></Grid>
-
-
                         <Grid  Grid.Column="1">
                             <StackPanel  Name="GrapLegend" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Top" Background="Transparent">
-                                <StackPanel Name="LegendEntry" Orientation="Vertical">
-                                </StackPanel>
+                                <Grid VerticalAlignment="Center">
+                                    <StackPanel Name="LegendEntry" Orientation="Vertical" VerticalAlignment="Center" Background="Transparent"></StackPanel>
+                                </Grid>
                             </StackPanel>
                         </Grid>
                     </Grid>
                 </Border>
-
-
-
             </Grid>
-
         </Grid>
     </Border>
 </Window>

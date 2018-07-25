@@ -41,7 +41,7 @@ namespace UnitTestProject1
         {
             var graphData = new PieChart();
 
-            var test = graphData.GeneratePieChartData();
+            var test = graphData.PieChartData;
 
             Assert.AreEqual("Alcohol(0)", test[0].Category );
             Assert.AreEqual("Books(2)", test[1].Category);
@@ -67,7 +67,7 @@ namespace UnitTestProject1
         {
             var graphData = new MonthlyChart();
 
-            var test = graphData.GenerateBarGraphData();
+            var test = graphData.MonthlyExpenseData;
 
             Assert.AreEqual(7,test[0].Month);
             Assert.AreEqual(8, test[1].Month);

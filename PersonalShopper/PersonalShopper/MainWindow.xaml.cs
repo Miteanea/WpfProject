@@ -19,6 +19,29 @@ namespace PersonalShopper
             DbOperations.Instance.DbConfiguration.SetConnectionString("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=\"Personal Shopper\";Integrated Security=SSPI;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
 
             CreatePieChart();
+            CreateBarGraph();
+
+        }
+
+        private void CreateBarGraph()
+        {
+            var barGraphData = new MonthlyChart().MonthlyExpenseData;
+
+            AddBarsToView(barGraphData);
+        }
+
+        private void AddBarsToView(List<MonthlyExpense> barGraphData)
+        {
+            foreach (var month in barGraphData)
+            {
+                BarStack.Children.Add(new System.Windows.Shapes.Rectangle
+                    {
+                        Width = 10,
+                        Height = (double)month.MonthlyExpenditure/10,
+                        Margin = new Thickness(5,5,5,5),
+                        Fill = Brushes.Black
+                    });
+            }
         }
 
         private void CreatePieChart()
@@ -39,7 +62,6 @@ namespace PersonalShopper
 
             foreach (var item in pieChartData)
             {
-
                 var slice = new Pie
                 {
                     HorizontalAlignment = HorizontalAlignment.Center,
@@ -51,38 +73,37 @@ namespace PersonalShopper
 
                 slice.Fill = colors[pieChartData.IndexOf(item)];
                 slice.Slice = (double)item.CategoryExpenditurePercentage;
-
                 slice.StartAngle = startAngle;
-
                 slices.Add(slice);
 
                 startAngle = slices.Last().EndAngle;
 
-
-                var newLegendEntry = new System.Windows.Controls.StackPanel();
-                newLegendEntry.Orientation = System.Windows.Controls.Orientation.Horizontal;
-                
-
-                newLegendEntry.Children.Add(new System.Windows.Shapes.Rectangle
-                {
-
-                    Height = 5,
-                    Width = 5,
-                    Fill = slice.Fill
-                });
-
-                newLegendEntry.Children.Add(new System.Windows.Controls.TextBlock
-                {
-                    Text = $"%{ (item.CategoryExpenditurePercentage * 100).ToString("0.##")} -  {item.Category}",
-                    TextAlignment = TextAlignment.Left,
-
-                }
-                     );
-
-                LegendEntry.Children.Add(newLegendEntry);
+                AddGraphLegend(item, slice);
             }
-
             return slices;
+        }
+
+        private void AddGraphLegend(CategoryExpensePercentage item, Pie slice)
+        {
+            var newLegendEntry = new System.Windows.Controls.StackPanel();
+            newLegendEntry.Orientation = System.Windows.Controls.Orientation.Horizontal;
+            newLegendEntry.Background = null;
+
+            newLegendEntry.Children.Add(new System.Windows.Shapes.Rectangle
+            {
+                Height = 5,
+                Width = 5,
+                Fill = slice.Fill
+            });
+
+            newLegendEntry.Children.Add(new System.Windows.Controls.TextBlock
+            {
+                Text = $"%{ (item.CategoryExpenditurePercentage * 100).ToString("0.##")} -  {item.Category}",
+                TextAlignment = TextAlignment.Left,
+            }
+                 );
+
+            LegendEntry.Children.Add(newLegendEntry);
         }
 
         private void AddPieSlicesToCanvas(List<Pie> pieSlices)
@@ -92,7 +113,6 @@ namespace PersonalShopper
                 PieGraph.Children.Add(slice);
             }
         }
-
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -107,10 +127,8 @@ namespace PersonalShopper
                 new SolidColorBrush(Colors.Red),
                 new SolidColorBrush(Colors.Gray),
                 new SolidColorBrush(Colors.Green),
-                new SolidColorBrush(Colors.Beige),
                 new SolidColorBrush(Colors.Blue),
                 new SolidColorBrush(Colors.Chocolate),
-                new SolidColorBrush(Colors.Coral),
                 new SolidColorBrush(Colors.DarkGoldenrod),
                 new SolidColorBrush(Colors.DarkMagenta),
                 new SolidColorBrush(Colors.Purple) };

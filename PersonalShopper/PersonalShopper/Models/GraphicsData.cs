@@ -7,7 +7,7 @@ namespace PersonalShopper.Models
     public class PieChart
     {
         public List<CategoryExpensePercentage> PieChartData { get { return GeneratePieChartData(); } }
-        public List<CategoryExpensePercentage> GeneratePieChartData()
+        private List<CategoryExpensePercentage> GeneratePieChartData()
         {
             var _expenses = DbOperations.Instance.GetExpenses();
             var list =
@@ -25,9 +25,8 @@ namespace PersonalShopper.Models
 
     public class MonthlyChart
     {
-
-        public List<MonthlyExpense> MonthlyExpenseBarGraphData { get; }
-        public List<MonthlyExpense> GenerateBarGraphData()
+        public List<MonthlyExpense> MonthlyExpenseData { get { return GenerateBarGraphData(); } }
+        private List<MonthlyExpense> GenerateBarGraphData()
         {
             var _expenses = DbOperations.Instance.GetExpenses();
             var list =
