@@ -6,7 +6,7 @@ namespace PersonalShopper.Models
 {
     public class PieChart
     {
-        public List<CategoryExpensePercentage> PieChartData { get; }
+        public List<CategoryExpensePercentage> PieChartData { get { return GeneratePieChartData(); } }
         public List<CategoryExpensePercentage> GeneratePieChartData()
         {
             var _expenses = DbOperations.Instance.GetExpenses();

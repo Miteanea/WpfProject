@@ -23,5 +23,6 @@ namespace PersonalShopper.Models
     {
         public string Category { get; set; }
         public decimal CategoryExpenditurePercentage { get; set; }
+
     }
 }

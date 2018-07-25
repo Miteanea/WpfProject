@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:PersonalShopper"
         mc:Ignorable="d"
         Background="LightGray"
-        Title="UserDataEntryWindow" ResizeMode="NoResize" Height="300" Width="275">
+        Title="UserDataEntryWindow"  Height="300" Width="275"
+        ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <Style TargetType="TextBlock">
@@ -57,9 +58,9 @@
 
             <StackPanel Orientation="Vertical" Grid.Row="2" Grid.Column="0">
                 <TextBlock Name="CategoryNameBlock" Text="Category Name:"/>
-                <ComboBox Name="CategoryComboBox" Height="20" SelectionChanged="CategoryComboBoxSelectionChanged" FontSize="10">
+                <TextBox IsReadOnly="True" Name="CategoryTextBox" Height="20" FontSize="10">
                     
-                </ComboBox>
+                </TextBox>
             </StackPanel>
 
             <StackPanel Orientation="Vertical" Grid.Row="3" Grid.Column="0">

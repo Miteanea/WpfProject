@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using PersonalShopper;
 using PersonalShopper.Db;
@@ -52,6 +53,16 @@ namespace UnitTestProject1
         }
 
         [TestMethod]
+        public void Pie_Chart_Data_Test_Sum_is_100()
+        {
+            var graphData = new PieChart().PieChartData;
+
+            var test = graphData.Select(x => x.CategoryExpenditurePercentage).Sum()*100;
+            Assert.AreEqual(100m, test);
+        }
+
+
+        [TestMethod]
         public void Bar_Graph_Data_Test()
         {
             var graphData = new MonthlyChart();
@@ -78,13 +89,7 @@ namespace UnitTestProject1
             Assert.AreEqual(DbOperations.Instance.GetExpenses().Count, 21);
         }
 
-        [TestMethod]
-        public void Get_Category_ComboList()
-        {
-            var comboList = DbOperations.Instance.GenerateComboBox();
-
-            Assert.AreEqual( comboList.Count , 7);
-        }
+      
 
 
         //private static IConfiguration CreateConfiguration()

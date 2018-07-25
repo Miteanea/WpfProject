@@ -20,11 +20,10 @@ namespace PersonalShopper
     /// </summary>
     public partial class UserDataEntryWindow : Window
     {
+
         public UserDataEntryWindow()
         {
             InitializeComponent();
-
-            CategoryComboBox.ItemsSource = DbOperations.Instance.GenerateComboBox();
         }
 
         private void QuantityTextChanged(object sender, TextChangedEventArgs e)
@@ -91,14 +90,6 @@ namespace PersonalShopper
                 DateBlock.Foreground = new SolidColorBrush(Colors.Green);
         }
 
-        private void CategoryComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if ((string)CategoryComboBox.SelectedItem == DbOperations.newCategoryMessage)
-            {
-                var enterNewCategory = new NewCategoryInputWindow(this);
-                enterNewCategory.Show();
-            }
-        }
 
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -109,7 +100,6 @@ namespace PersonalShopper
         {
 
             if (!string.IsNullOrWhiteSpace(NameBox.Text) &&
-                (string)CategoryComboBox.SelectedItem != DbOperations.newCategoryMessage &&
                 DateTime.TryParse(DateBox.Text, out DateTime x) &&
                 decimal.TryParse(Price.Text, out decimal y) &&
                 decimal.TryParse(Quantity.Text, out decimal q))
@@ -122,7 +112,7 @@ namespace PersonalShopper
                     Quantity = decimal.Parse(Quantity.Text),
                     Price = decimal.Parse(Price.Text),
                     Date = DateTime.Parse(DateBox.Text),
-                    Category = CategoryComboBox.SelectedItem.ToString(),
+                   
 
                 };
                 DbOperations.Instance.AddExpense(newExp);

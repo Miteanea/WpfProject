@@ -70,9 +70,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="NewCategoryInputWindow.xaml.cs">
-      <DependentUpon>NewCategoryInputWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="UserDataEntryWindow.xaml.cs">
       <DependentUpon>UserDataEntryWindow.xaml</DependentUpon>
     </Compile>
@@ -89,10 +86,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="NewCategoryInputWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="UserDataEntryWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
