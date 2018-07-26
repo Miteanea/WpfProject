@@ -41,9 +41,12 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <!-- Yearly Expenses Graph-->
-            <Canvas Name="BarGraphCanvas" Grid.Column="0" Grid.Row="0" Background="White" />
-            <Border BorderBrush="Black" BorderThickness="1">
+            <Border BorderBrush="Black" BorderThickness="1" >
+                <Canvas Name="BarGraphCanvas" Grid.Column="0" Grid.Row="0" Background="White" Height="200">
+
+                </Canvas>
             </Border>
+
             <!-- Buttons Panel-->
             <Grid x:Name="ButtonsPanel" Grid.Column="1" Grid.Row="0" Margin ="10" Background="BlanchedAlmond" >
                 <StackPanel VerticalAlignment="Center">

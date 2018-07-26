@@ -33,32 +33,25 @@ namespace PersonalShopper
 
         private void AddBarsToView(List<MonthlyExpense> barGraphData)
         {
-            double init = 0;
+            double init = 40;
             System.Windows.Shapes.Rectangle bar;
+
             foreach (var month in barGraphData)
             {
                 bar = new System.Windows.Shapes.Rectangle
                 {
-                    Width = -10,
-                    Height = -(double)month.MonthlyExpenditure / 10,
+                    Width = 10,
+                    Height = (double)month.MonthlyExpenditure / 10,
                     Margin = new Thickness(5, 5, 5, 5),
                     Fill = Brushes.Black,
-                    VerticalAlignment = VerticalAlignment.Bottom,
                 };
+
+                Canvas.SetLeft(bar, init);
+                init += 15;
+                Canvas.SetBottom(bar, 25);
+
+                BarGraphCanvas.Children.Add(bar);
             }
-            bar = new System.Windows.Shapes.Rectangle
-            {
-                Width = 1,
-
-                Height = 1,
-
-                Margin = new Thickness(5, 5, 5, 5),
-                Fill = Brushes.Black
-            };
-
-            Canvas.SetLeft(bar, init);
-
-            BarGraphCanvas.Children.Add(bar);
         }
 
         private void CreatePieChart()
