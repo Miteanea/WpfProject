@@ -41,26 +41,8 @@
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <!-- Yearly Expenses Graph-->
-            <Canvas Grid.Column="0" Grid.Row="0" Background="White"/>
+            <Canvas Name="BarGraphCanvas" Grid.Column="0" Grid.Row="0" Background="White" />
             <Border BorderBrush="Black" BorderThickness="1">
-
-                <Grid Margin="5">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="10"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="30"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="30"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="10"/>
-                    </Grid.ColumnDefinitions>
-
-                    <StackPanel Name ="YAxis" Orientation="Vertical" Grid.Row="1" Grid.Column="0"/>
-                    <StackPanel Name ="BarStack" VerticalAlignment="Bottom" Orientation="Horizontal" Grid.Row="1" Grid.Column="1" />
-                    <StackPanel Name ="XAxis" Orientation="Horizontal" Grid.Row="2" Grid.Column="1"/>
-
-                </Grid>
             </Border>
             <!-- Buttons Panel-->
             <Grid x:Name="ButtonsPanel" Grid.Column="1" Grid.Row="0" Margin ="10" Background="BlanchedAlmond" >

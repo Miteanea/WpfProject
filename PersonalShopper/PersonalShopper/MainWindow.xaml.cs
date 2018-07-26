@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using Xceed.Wpf.Toolkit;
 
@@ -16,7 +17,7 @@ namespace PersonalShopper
             InitializeComponent();
 
 
-            DbOperations.Instance.DbConfiguration.SetConnectionString("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=\"Personal Shopper\";Integrated Security=SSPI;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            DbOperations.Instance.DbConfiguration.SetConnectionString("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=\"Personal Shopper\";Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
 
             CreatePieChart();
             CreateBarGraph();
@@ -32,16 +33,32 @@ namespace PersonalShopper
 
         private void AddBarsToView(List<MonthlyExpense> barGraphData)
         {
+            double init = 0;
+            System.Windows.Shapes.Rectangle bar;
             foreach (var month in barGraphData)
             {
-                BarStack.Children.Add(new System.Windows.Shapes.Rectangle
-                    {
-                        Width = 10,
-                        Height = (double)month.MonthlyExpenditure/10,
-                        Margin = new Thickness(5,5,5,5),
-                        Fill = Brushes.Black
-                    });
+                bar = new System.Windows.Shapes.Rectangle
+                {
+                    Width = -10,
+                    Height = -(double)month.MonthlyExpenditure / 10,
+                    Margin = new Thickness(5, 5, 5, 5),
+                    Fill = Brushes.Black,
+                    VerticalAlignment = VerticalAlignment.Bottom,
+                };
             }
+            bar = new System.Windows.Shapes.Rectangle
+            {
+                Width = 1,
+
+                Height = 1,
+
+                Margin = new Thickness(5, 5, 5, 5),
+                Fill = Brushes.Black
+            };
+
+            Canvas.SetLeft(bar, init);
+
+            BarGraphCanvas.Children.Add(bar);
         }
 
         private void CreatePieChart()
