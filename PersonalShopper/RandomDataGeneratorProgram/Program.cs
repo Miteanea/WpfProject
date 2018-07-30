@@ -13,25 +13,23 @@ namespace RandomDataGeneratorProgram
 
             var count = 0;
 
+
             var dataList = new List<ExpenseData>();
 
             var seedData = new SeedData();
 
-            string path = "e:\\repos\\project1dmitricaragheaur\\sampledata\\sampledata20.txt";
+            string path = "e:\\repos\\wpfproject\\sampledata\\sampledata200.txt";
 
-            while (count < 20)
+            while (count < 200)
             {
                 dataList.Add(new ExpenseData(seedData));
                 count++;
             }
-
-            
-
+           
             foreach (var item in dataList)
             {
                 File.AppendAllText(path, item.ToString());
-            }
-            
+            }            
         }
     }
 
@@ -64,7 +62,7 @@ namespace RandomDataGeneratorProgram
 
         public override string ToString()
         {
-            return $"('{Name}', {Quantity}, {Price}, '{Date.ToString("yyyy/MM/dd hh:mm:ss")}', '{Category}', {Sum}) \r\n";
+            return $"('{Name}', {Quantity}, {Price}, '{Date.ToString("yyyy/MM/dd hh:mm:ss")}', '{Category}'), \r\n";
         }
     }
 
@@ -134,6 +132,4 @@ namespace RandomDataGeneratorProgram
         public string CategoryName { get; set; }
         public List<string> ProductName { get; set; }
     }
-
-
 }

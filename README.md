@@ -14,6 +14,7 @@ Nella schermata iniziale vedo statistiche relative alle spese:
 
 
 In un'altra schermata c'è l'elenco di categorie in forma di Expander.
+
 In ogni categoria, l'elenco di spese, paginate (gruppi da 10).
 
 In ogni categoria è possibile aggiungere una spesa, indicando data, importo.

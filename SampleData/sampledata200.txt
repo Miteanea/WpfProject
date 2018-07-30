@@ -1,20 +1,3 @@
- CREATE DATABASE [Personal Shopper]
- GO
- 
- create table [Expenses]
- (
-	 [Id] int identity(1,1) not null,
-	 constraint PK_Expenses primary key (Id),
-	 [Name] nvarchar(100) not null,
-	 [Quantity] decimal(18,2) not null, 
-	 [Price] decimal (18,2) not null, 
-	 [Date] datetime not null,
-	 [Category] nvarchar(50) not null 
-)
-
-insert into [Expenses]
-(Name, quantity, price, date, category)
-values 
 ('prod35', 7, 98.29, '2018-05-13 10:00:00', 'Food(3)'), 
 ('prod42', 9, 70.69, '2018-01-08 04:00:00', 'Electronics(4)'), 
 ('prod03', 1, 3.99, '2018-02-27 02:00:00', 'Alcohol(0)'), 
@@ -214,6 +197,4 @@ values
 ('prod52', 5, 2.09, '2018-03-31 08:00:00', 'Games(5)'), 
 ('prod11', 4, 11.59, '2017-10-27 02:00:00', 'Clothes(1)'), 
 ('prod23', 1, 14.69, '2017-07-03 12:00:00', 'Books(2)'), 
-('prod45', 3, 88.89, '2017-05-14 06:00:00', 'Electronics(4)')
-
-	
+('prod45', 3, 88.89, '2017-05-14 06:00:00', 'Electronics(4)'), 

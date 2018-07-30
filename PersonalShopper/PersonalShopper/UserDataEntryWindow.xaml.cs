@@ -19,12 +19,15 @@ namespace PersonalShopper
     /// Interaction logic for UserDataEntryWindow.xaml
     /// </summary>
     public partial class UserDataEntryWindow : Window
-    {
+    {   
 
-        public UserDataEntryWindow()
+        public UserDataEntryWindow( string value)
         {
+
             InitializeComponent();
-        }
+
+            CategoryTextBox.Text = value;
+        }        
 
         private void QuantityTextChanged(object sender, TextChangedEventArgs e)
         {
@@ -90,7 +93,6 @@ namespace PersonalShopper
                 DateBlock.Foreground = new SolidColorBrush(Colors.Green);
         }
 
-
         private void Cancel_Button_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -98,13 +100,12 @@ namespace PersonalShopper
 
         private void Save_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            
             if (!string.IsNullOrWhiteSpace(NameBox.Text) &&
                 DateTime.TryParse(DateBox.Text, out DateTime x) &&
                 decimal.TryParse(Price.Text, out decimal y) &&
                 decimal.TryParse(Quantity.Text, out decimal q))
             {
-
                 var newExp = new Expense
                 {
                     // (Name, quantity, price, date, category)
@@ -112,7 +113,7 @@ namespace PersonalShopper
                     Quantity = decimal.Parse(Quantity.Text),
                     Price = decimal.Parse(Price.Text),
                     Date = DateTime.Parse(DateBox.Text),
-                   
+                    Category = CategoryTextBox.Text
 
                 };
                 DbOperations.Instance.AddExpense(newExp);
@@ -122,9 +123,7 @@ namespace PersonalShopper
             else
             {
                 MessageBox.Show("Not all Inputs are entered correctly");
-
             }
-
         }
     }
 }

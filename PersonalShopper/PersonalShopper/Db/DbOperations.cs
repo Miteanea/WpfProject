@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace PersonalShopper.Db
 {
@@ -17,6 +18,47 @@ namespace PersonalShopper.Db
     public class DbOperations : IDbOperations
     {
         public IConfiguration DbConfiguration { get; set; }
+
+        internal List<Expense> DisplayExpnesePage(int pageNumber, string category)
+        {
+            var list = new List<Expense>();
+            var upper = pageNumber * 10;
+            var lower = upper - 9;
+
+            using (var conn = DbConfiguration.CreateConnection())
+            using (var comm = conn.CreateCommand())
+            {
+                conn.Open();
+
+                comm.CommandType = System.Data.CommandType.Text;
+                comm.CommandText =
+                                        "with[Page] as(" +                                        
+                                        "select[Id], [Name], [Quantity], [Price], [Date], [Category],"+
+                                        "ROW_NUMBER() OVER(ORDER BY Date) AS[RowNumber] from[Expenses]"+
+                                        $"where[Category] = '{category}')" +
+                                        "select[Id], [Name], [Quantity], [Price], [Date], [Category], [RowNumber] from[Page]"+
+                                        $"where[RowNumber] BETWEEN {lower} AND {upper};";
+
+                using (var reader = comm.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var exp = new Expense
+                        {
+                            Id = reader.GetInt32(0),
+                            Name = reader.GetString(1),
+                            Quantity = reader.GetDecimal(2),
+                            Price = reader.GetDecimal(3),
+                            Date = reader.GetDateTime(4),
+                            Category = reader.GetString(5),
+                        };
+                        exp.Sum =Math.Round( exp.Price * exp.Quantity, 2);
+                        list.Add(exp);
+                    }
+                }
+            }
+            return list;
+        }
 
         public List<Expense> GetExpenses()
         {
@@ -35,7 +77,7 @@ namespace PersonalShopper.Db
                 {
                     while (reader.Read())
                     {
-                        list.Add(new Expense
+                        var exp = new Expense
                         {
                             Id = reader.GetInt32(0),
                             Name = reader.GetString(1),
@@ -43,37 +85,34 @@ namespace PersonalShopper.Db
                             Price = reader.GetDecimal(3),
                             Date = reader.GetDateTime(4),
                             Category = reader.GetString(5),
-                        });
+                        };
+
+                        exp.Sum = Math.Round(exp.Price * exp.Quantity, 2);
+                        list.Add(exp);
                     }
                 }
             }
             return list;
         }
-
-        public List<String> GenerateComboBox()
+       
+        public List<string> GetCategories()
         {
-            List<string> comboList = new List<string> { newCategoryMessage };
-
-            using (var conn = DbConfiguration.CreateConnection())
-            using (var comm = conn.CreateCommand())
-            {
-                conn.Open();
-
-                comm.CommandType = System.Data.CommandType.Text;
-                comm.CommandText = "select Category from [expenses] group by Category order by Category ";
-
-                using (var reader = comm.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        comboList.Add(reader.GetString(0));
-                    }
-                }
-            }
-            return comboList;
+            var list = GetExpenses().GroupBy(x => x.Category).Select(y => y.Key).ToList();
+            return list;
         }
 
-        public static string newCategoryMessage = "Create New Category";
+        public int GetNumberOfButtons(string category)
+        {
+            int expensesPerCategory = GetExpenses().Where(x => x.Category == category).Count();
+
+            int tot = expensesPerCategory / 10;
+            if (expensesPerCategory % 10 > 0)
+            {
+                tot++;
+            }
+                                    
+            return tot;
+        }
 
         public void AddExpense(Expense newExp)
         {
@@ -92,6 +131,7 @@ namespace PersonalShopper.Db
             }
         }
 
+
         #region Singleton
         private DbOperations()
         {
@@ -104,6 +144,8 @@ namespace PersonalShopper.Db
         }
 
         public static DbOperations Instance { get; }
+
+
         #endregion
 
     }
