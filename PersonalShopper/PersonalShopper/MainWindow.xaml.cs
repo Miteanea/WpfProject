@@ -16,20 +16,33 @@ namespace PersonalShopper
     {
         public MainWindow()
         {
-            InitializeComponent();            
+            InitializeComponent();
 
-            DbOperations.Instance.DbConfiguration.SetConnectionString("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=\"Personal Shopper\";Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            DataContext = this;
+
+            var config = CreateConfiguration();
+
+            Repository = new DbOperations(config);
 
             CreatePieChart();
             CreateBarGraph();
 
         }
 
+        public IDbOperations Repository { get; set; }
+
+        private static IConfiguration CreateConfiguration()
+        {
+            Configuration.Instance.SetConnectionString(
+               "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=\"Personal Shopper\";Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+
+            return Configuration.Instance;
+        }
+
         private void CreateBarGraph()
         {
-            var barGraphData = new MonthlyChart().MonthlyExpenseData;
-
-
+            var barGraphData = new MonthlyChart(Repository).MonthlyExpenseData;
+            
             var label = new Label { Content = "Last 12 Month Expenses", FontSize = 22 };
             BarGraphCanvas.Children.Add(label);
             Canvas.SetLeft(label, 200);
@@ -116,7 +129,7 @@ namespace PersonalShopper
         }
         private List<Pie> CreatePieSlices()
         {
-            var pieChartData = new PieChart().PieChartData;
+            var pieChartData = new PieChart(Repository).PieChartData;
             var slices = new List<Pie>();
             var colors = GetListOfColors();
 
@@ -189,7 +202,7 @@ namespace PersonalShopper
                 var backBtn = new Button { Content = "Back", Name = "backBtn" };
                 backBtn.Click += Back_Btn_Click;
 
-                var listCategories = DbOperations.Instance.GetCategories();
+                var listCategories = Repository.GetCategories();
                 var pies = CreatePieSlices();
 
                 foreach (var item in listCategories)
@@ -252,7 +265,7 @@ namespace PersonalShopper
 
             centerButtonsPanel.Children.Add(btnPanel);
 
-            var tot = DbOperations.Instance.GetNumberOfButtons(category);
+            var tot =Repository.GetNumberOfButtons(category);
 
             for (int i = 1; i <= tot; i++)
             {
@@ -268,7 +281,7 @@ namespace PersonalShopper
         
         private void DisplayExpenses(DataGrid dataGrid, int pageNumber, string category)
         {
-            dataGrid.ItemsSource = DbOperations.Instance.DisplayExpnesePage(pageNumber, category);
+            dataGrid.ItemsSource = Repository.DisplayExpensePage(pageNumber, category);
         }
         private void Back_Btn_Click(object sender, RoutedEventArgs e)
         {
@@ -303,7 +316,7 @@ namespace PersonalShopper
             FrameworkElement parentOfParent = (FrameworkElement)((StackPanel)parent).Parent;
             Expander parentOfParentOfParent = (Expander)((Grid)parentOfParent).Parent;
 
-            var userDataEntryWindow = new UserDataEntryWindow(parentOfParentOfParent.Header.ToString());
+            var userDataEntryWindow = new UserDataEntryWindow(parentOfParentOfParent.Header.ToString(), Repository);
 
             userDataEntryWindow.Show();
         }

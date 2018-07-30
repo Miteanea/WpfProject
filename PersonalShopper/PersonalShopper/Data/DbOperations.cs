@@ -11,15 +11,20 @@ namespace PersonalShopper.Db
     {
         List<Expense> GetExpenses();
         void AddExpense(Expense newExp);
+        List<string> GetCategories();
+        int GetNumberOfButtons(string category);
+        List<Expense> DisplayExpensePage(int pageNumber, string category);
     }
-
-        
 
     public class DbOperations : IDbOperations
     {
+        public DbOperations(IConfiguration config)
+        {
+            DbConfiguration = config;
+        }
         public IConfiguration DbConfiguration { get; set; }
 
-        internal List<Expense> DisplayExpnesePage(int pageNumber, string category)
+        public List<Expense> DisplayExpensePage(int pageNumber, string category)
         {
             var list = new List<Expense>();
             var upper = pageNumber * 10;
@@ -130,23 +135,6 @@ namespace PersonalShopper.Db
                 comm.ExecuteNonQuery();
             }
         }
-
-
-        #region Singleton
-        private DbOperations()
-        {
-        }
-
-        static DbOperations()
-        {
-            Instance = new DbOperations();
-            Instance.DbConfiguration = Configuration.Instance;
-        }
-
-        public static DbOperations Instance { get; }
-
-
-        #endregion
 
     }
 

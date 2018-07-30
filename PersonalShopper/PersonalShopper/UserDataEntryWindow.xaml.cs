@@ -21,13 +21,15 @@ namespace PersonalShopper
     public partial class UserDataEntryWindow : Window
     {   
 
-        public UserDataEntryWindow( string value)
+        public UserDataEntryWindow( string value, IDbOperations repository)
         {
-
             InitializeComponent();
 
+            Repository = repository;
             CategoryTextBox.Text = value;
         }        
+
+        public IDbOperations Repository { get; }
 
         private void QuantityTextChanged(object sender, TextChangedEventArgs e)
         {
@@ -116,7 +118,8 @@ namespace PersonalShopper
                     Category = CategoryTextBox.Text
 
                 };
-                DbOperations.Instance.AddExpense(newExp);
+
+                Repository.AddExpense(newExp);
                 MessageBox.Show("Expense Saved To Database!");
                 this.Close();
             }
@@ -125,5 +128,10 @@ namespace PersonalShopper
                 MessageBox.Show("Not all Inputs are entered correctly");
             }
         }
+    }
+
+    public class InputControls
+    {
+
     }
 }

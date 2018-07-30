@@ -7,10 +7,15 @@ namespace PersonalShopper.Models
 {
     public class PieChart
     {
+        public PieChart(IDbOperations repository)
+        {
+            Repository = repository;
+        }
+        public IDbOperations Repository { get; }
         public List<CategoryExpensePercentage> PieChartData { get { return GeneratePieChartData(); } }
         private List<CategoryExpensePercentage> GeneratePieChartData()
         {
-            var _expenses = DbOperations.Instance.GetExpenses();
+            var _expenses = Repository.GetExpenses();
             var list =
                 _expenses.GroupBy(x => x.Category)
                         .Select(y => new CategoryExpensePercentage
@@ -26,11 +31,16 @@ namespace PersonalShopper.Models
 
     public class MonthlyChart
     {
+        public MonthlyChart(IDbOperations repository)
+        {
+            Repository = repository;
+        }
+        public IDbOperations Repository { get; }
         public List<MonthlyExpense> MonthlyExpenseData { get { return GenerateBarGraphData(); } }
         private List<MonthlyExpense> GenerateBarGraphData()
         {
             var cutoffDate = DateTime.Now.AddMonths(-12);
-            var _expenses = DbOperations.Instance.GetExpenses();
+            var _expenses = Repository.GetExpenses();
             var list =
                 _expenses.Where(d => d.Date >= cutoffDate)
                 .GroupBy(x => x.Date.ToString("MMM/yy"))
@@ -44,11 +54,6 @@ namespace PersonalShopper.Models
             //Be careful with order of records
             return list;
         }
-    }
-
-    public class ExpanderView
-    {
-        
     }
 
 }
