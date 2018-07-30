@@ -9,23 +9,18 @@ namespace RandomDataGeneratorProgram
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-
             var count = 0;
-
-
             var dataList = new List<ExpenseData>();
-
             var seedData = new SeedData();
 
-            string path = "e:\\repos\\wpfproject\\sampledata\\sampledata200.txt";
+            string path = "e:\\repos\\wpfproject\\sampledata\\sampledata500.txt";
 
-            while (count < 200)
+            while (count < 500)
             {
                 dataList.Add(new ExpenseData(seedData));
                 count++;
             }
-           
+            
             foreach (var item in dataList)
             {
                 File.AppendAllText(path, item.ToString());
@@ -45,9 +40,8 @@ namespace RandomDataGeneratorProgram
                 .ProductName[
                 rnd.Next(
                     seedData.Categories
-                    .Find(
-                        x => x.CategoryName == Category)
-                        .ProductName.Count)];
+                    .Find(x => x.CategoryName == Category)
+                    .ProductName.Count)];
             Quantity = seedData.RangeOneToTen[rnd.Next(seedData.RangeOneToTen.Count)];
             Price = seedData.PriceRange100[rnd.Next(seedData.PriceRange100.Count)];
             Date = seedData.TimeRange[rnd.Next(seedData.TimeRange.Count)];
@@ -71,17 +65,17 @@ namespace RandomDataGeneratorProgram
         public SeedData()
         {
             Categories = new List<Category> {
-                new Category { CategoryName="Alcohol(0)",
+                new Category { CategoryName="Alcohol",
                                ProductName = new List<string>{"prod01","prod02","prod03","prod04","prod05" } },
-                new Category { CategoryName="Clothes(1)",
+                new Category { CategoryName="Clothes",
                                ProductName = new List<string>{"prod11","prod12","prod13","prod14","prod15" } },
-                new Category { CategoryName="Books(2)",
+                new Category { CategoryName="Books",
                                ProductName = new List<string>{"prod21","prod22","prod23","prod24","prod25" } },
-                new Category { CategoryName="Food(3)",
+                new Category { CategoryName="Food",
                                ProductName = new List<string>{"prod31","prod32","prod33","prod34","prod35" } },
-                new Category { CategoryName="Electronics(4)",
+                new Category { CategoryName="Electronics",
                                ProductName = new List<string>{"prod41","prod42","prod43","prod44","prod45" } },
-                new Category { CategoryName="Games(5)",
+                new Category { CategoryName="Games",
                                ProductName = new List<string>{"prod51","prod52","prod53","prod54","prod55" } }
             };
             RangeOneToTen = new List<int> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
@@ -118,7 +112,6 @@ namespace RandomDataGeneratorProgram
             }
             return list;
         }
-
 
         public List<string> Names { get; }
         public List<int> RangeOneToTen { get; }

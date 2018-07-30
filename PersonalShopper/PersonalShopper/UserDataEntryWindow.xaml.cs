@@ -130,8 +130,5 @@ namespace PersonalShopper
         }
     }
 
-    public class InputControls
-    {
 
-    }
 }

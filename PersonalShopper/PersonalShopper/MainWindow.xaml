@@ -43,15 +43,15 @@
             </Grid.ColumnDefinitions>
 
             <!-- Yearly Expenses Graph-->
-            <Border BorderBrush="Black" Grid.Column="1" Grid.Row="0" BorderThickness="1" Margin="10"
-                                MinWidth="521" Width="Auto" MinHeight="191" Height="Auto" Name="BorderGraph">
-                <Canvas Name="BarGraphCanvas"  Background="White" MinWidth ="520" MinHeight="190"/>
-            </Border>
+            <Border  BorderBrush="Black" Grid.Column="1" Grid.Row="0" BorderThickness="1" Margin="10"
+                      MinWidth="560" Width="Auto" MinHeight="191" Height="Auto" Name="BorderGraph"/>
+
             <!-- Pie Chart Graph-->
             <Grid x:Name="PieChartGrid" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Border BorderBrush="Black" BorderThickness="1" Padding="15" Margin="10"
                             Visibility="Visible" Background="White">
-                    <Grid Width="Auto" Height="Auto">
+                    <Grid Name ="PieBaseGrid" Width="Auto" Height="Auto">
+                        
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="Auto"/>
@@ -61,16 +61,14 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <Label Name="PieGraphLabel" Grid.ColumnSpan="2" Grid.Row="0"/>
+                        <Label Name="PieGraphLabel" Grid.ColumnSpan="2" Grid.Row="0" FontSize="22"/>
 
                         <Grid Name="PieGraph" Margin="10 0 10 0"
                               Grid.Column="0" Grid.Row="1"></Grid>
                         <Grid Name="LegendGrid" 
                               Grid.Column="1" Grid.Row="1">
                             <StackPanel  Name="GrapLegend" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Background="Transparent" >
-                                <Grid VerticalAlignment="Center">
-                                    <StackPanel Name="LegendEntry" Orientation="Vertical" VerticalAlignment="Center" Background="Transparent"></StackPanel>
-                                </Grid>
+                                <Grid Name ="LegendEntryGrid" VerticalAlignment="Center" />
                             </StackPanel>
                         </Grid>
                     </Grid>

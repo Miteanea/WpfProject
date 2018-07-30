@@ -4,9 +4,6 @@ namespace PersonalShopper.Models
 {
     public class Expense
     {
-        public Expense()
-        {}
-
         public int Id { get; set; }
         public string Name { get; set; }
         public decimal Quantity { get; set; }
@@ -17,11 +14,9 @@ namespace PersonalShopper.Models
     }
 
     public class MonthlyExpense
-    {
-        
+    {   
         public string Month { get; set; }
-        public decimal MonthlyExpenditure { get; set; }
-       
+        public decimal MonthlyExpenditure { get; set; }       
     }
 
     public class CategoryExpensePercentage

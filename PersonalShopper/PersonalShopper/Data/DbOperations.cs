@@ -102,7 +102,10 @@ namespace PersonalShopper.Db
        
         public List<string> GetCategories()
         {
-            var list = GetExpenses().GroupBy(x => x.Category).Select(y => y.Key).ToList();
+            var list = GetExpenses().GroupBy(x => x.Category)
+                                    .Select(y => y.Key)
+                                    .OrderBy(x=>x)
+                                    .ToList();
             return list;
         }
 
@@ -114,8 +117,7 @@ namespace PersonalShopper.Db
             if (expensesPerCategory % 10 > 0)
             {
                 tot++;
-            }
-                                    
+            }                                    
             return tot;
         }
 
@@ -166,8 +168,7 @@ namespace PersonalShopper.Db
         }
 
         public static Configuration Instance { get; }
-        #endregion
-   
+        #endregion   
     }
 
 }

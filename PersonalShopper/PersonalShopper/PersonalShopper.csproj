@@ -70,9 +70,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\ExpanderModel.cs" />
+    <Compile Include="Models\PieChartModel.cs" />
     <Compile Include="UserDataEntryWindow.xaml.cs">
       <DependentUpon>UserDataEntryWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\BarGraphModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -93,7 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Models\Expense_Models.cs" />
-    <Compile Include="Models\GraphicsData.cs" />
+    <Compile Include="Data\GraphicsData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -117,8 +120,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="ViewModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
