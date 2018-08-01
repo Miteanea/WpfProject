@@ -20,27 +20,15 @@ namespace PersonalShopper
             InitializeComponent();
 
             var config = CreateConfiguration();
-
             Repository = new DbOperations(config);
-
-
-            TabControl.SelectionChanged += new SelectionChangedEventHandler(ExpanderView);
-            TabControl.SelectionChanged += new SelectionChangedEventHandler(UpdateGraphs);
 
             CreatePieChart();
             CreateBarGraph();
-
-        }
-        static PieChartModel pie;
-
-
-        private void UpdateGraphs(object sender, RoutedEventArgs e)
-        {
-            UpdateBarGraph();
-            UpdatePieChart();
+            CreateExpanderView();
         }
 
         public IDbOperations Repository { get; set; }
+        private PieChartModel pie { get; set; }
         private static IConfiguration CreateConfiguration()
         {
             Configuration.Instance.SetConnectionString(
@@ -49,6 +37,11 @@ namespace PersonalShopper
             return Configuration.Instance;
         }
 
+        private void UpdateGraphs(object sender, RoutedEventArgs e)
+        {
+            UpdateBarGraph();
+            UpdatePieChart();
+        }
         public void CreateBarGraph()
         {
             BorderGraph.Child = new BarGraphModel(Repository).BarGraphCanvas;
@@ -63,7 +56,6 @@ namespace PersonalShopper
             PieGraph.Children.Add(pie.PieGraph);
             LegendEntryGrid.Children.Add(pie.LegendEntry);
             PieGraphLabel.Content = pie.PieGraphLabel.Content;
-
         }
         private void UpdatePieChart()
         {
@@ -72,8 +64,7 @@ namespace PersonalShopper
 
             CreatePieChart();
         }
-
-        private void ExpanderView(object sender, RoutedEventArgs e)
+        private void CreateExpanderView()
         {
             if (ExpanderStack.Children.Count == 0)
             {
@@ -87,7 +78,6 @@ namespace PersonalShopper
 
                     ExpanderStack.Children.Add(expander);
                 }
-
             }
         }
 
@@ -103,22 +93,7 @@ namespace PersonalShopper
             }
             return color;
         }
-        public static List<SolidColorBrush> GetListOfColors()
-        {
-
-            var listOfBrushes = new List<SolidColorBrush> {
-                new SolidColorBrush(Colors.Red),
-                new SolidColorBrush(Colors.Gray),
-                new SolidColorBrush(Colors.Green),
-                new SolidColorBrush(Colors.Blue),
-                new SolidColorBrush(Colors.Chocolate),
-                new SolidColorBrush(Colors.DarkGoldenrod),
-                new SolidColorBrush(Colors.DarkMagenta),
-                new SolidColorBrush(Colors.Purple) };
-
-            return listOfBrushes;
-        }
-
+      
     }
 
 }

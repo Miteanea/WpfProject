@@ -12,19 +12,24 @@ namespace PersonalShopper.Models
 {
     class ExpanderModel
     {
-
-
         public ExpanderModel(string item, Brush color, IDbOperations repository)
         {
             Name = item;
+            _pageNumber = 1;
             Repository = repository;
+            _listOfButtons = new List<Button>();
             Expander = new Expander
             { Header = item, Background = color };
             GenerateExpanderBody(Expander);
         }
-        private DataGrid dataGrid { get; set; }
-        private Grid expanderGrid { get; set; }
-        private Label currentPage { get; set; }
+
+        private StackPanel _btnPanel { get; set; }
+        private List<Button> _listOfButtons {get;set;}
+        private DataGrid _dataGrid { get; set; }
+        private Grid _expanderGrid { get; set; }        
+        private int _pageNumber { get; set; }
+        private StackPanel _addBtnStack { get; set; }
+        private StackPanel _centerButtonsPanel { get; set; }
 
         public string Name { get; set; }
         public IDbOperations Repository { get; }
@@ -32,66 +37,85 @@ namespace PersonalShopper.Models
 
         private void GenerateExpanderBody(Expander expander)
         {
-            expanderGrid = new Grid();
+            expander.Content = CreateExpanderContentGrid();
+            DisplayExpenses(_dataGrid, _pageNumber, Name);
+        }
 
-            expander.Content = expanderGrid;
-            var category = expander.Header.ToString();
+        private Grid CreateExpanderContentGrid()
+        {
+            var expanderGrid = new Grid();
 
+            ConfigureGrid(expanderGrid);
+
+            var numberOfButtons = Repository.GetNumberOfButtons(Name);
+
+            CreateButtons(numberOfButtons);
+
+            return expanderGrid;
+        }
+        private void ConfigureGrid(Grid expanderGrid)
+        {
             expanderGrid.RowDefinitions.Add(new RowDefinition());
             expanderGrid.RowDefinitions.Add(new RowDefinition());
             expanderGrid.RowDefinitions.Add(new RowDefinition());
 
             expanderGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
-            var addBtnStack = new StackPanel();
-            expanderGrid.Children.Add(addBtnStack);
-            Grid.SetRow(addBtnStack, 0);
-            Grid.SetColumn(addBtnStack, 0);
+            _dataGrid = new DataGrid { HorizontalAlignment = HorizontalAlignment.Center, MinWidth = 500};
+            expanderGrid.Children.Add(_dataGrid);
+            Grid.SetRow(_dataGrid, 0);
+            Grid.SetColumn(_dataGrid, 0);
 
-            var addBtn = new Button { Content = "Add Expense", HorizontalAlignment = HorizontalAlignment.Left };
-            addBtnStack.Children.Add(addBtn);
-            addBtn.Click += new RoutedEventHandler(Add_Btn_Click);
+            _centerButtonsPanel = new StackPanel { Orientation = Orientation.Vertical};
+            _btnPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center };
+            expanderGrid.Children.Add(_centerButtonsPanel);
+            Grid.SetRow(_centerButtonsPanel, 1);
+            Grid.SetColumn(_centerButtonsPanel, 0);
 
-            int pageNumber = 1;
-            currentPage = new Label { Content = "Page: " + pageNumber.ToString(), FontSize = 16 };
-            currentPage.HorizontalAlignment = HorizontalAlignment.Right;
-            addBtnStack.Children.Add(currentPage);
+            _addBtnStack = new StackPanel { HorizontalAlignment = HorizontalAlignment.Center };
+            expanderGrid.Children.Add(_addBtnStack);
+            Grid.SetRow(_addBtnStack, 2);
+            Grid.SetColumn(_addBtnStack, 0);
 
-            dataGrid = new DataGrid();
-            expanderGrid.Children.Add(dataGrid);
-            Grid.SetRow(dataGrid, 1);
-            Grid.SetColumn(dataGrid, 0);
-
-            var centerButtonsPanel = new StackPanel { Orientation = Orientation.Vertical };
-            var btnPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center };
-            expanderGrid.Children.Add(centerButtonsPanel);
-            Grid.SetRow(centerButtonsPanel, 2);
-            Grid.SetColumn(centerButtonsPanel, 0);
-
-            centerButtonsPanel.Children.Add(btnPanel);
-
-            var tot = Repository.GetNumberOfButtons(category);
-
+            _centerButtonsPanel.Children.Add(_btnPanel);
+        }
+        private void CreateButtons(int tot)
+        {
             for (int i = 1; i <= tot; i++)
             {
                 var btn = new Button { Name = $"btn{i}", Content = $"{i}", Width = double.NaN, Height = double.NaN };
                 btn.Click += new RoutedEventHandler(Page_Btn_Click);
+                _listOfButtons.Add(btn);
+            }
+            _listOfButtons[0].FontWeight = FontWeights.Heavy;
 
-                btnPanel.Children.Add(btn);
+            foreach (var btn in _listOfButtons)
+            {
+                _btnPanel.Children.Add(btn);
             }
 
-            DisplayExpenses(dataGrid, pageNumber, expander.Header.ToString());
+            var addBtn = new Button { Content = "Add Expense", HorizontalAlignment = HorizontalAlignment.Left };
+            _addBtnStack.Children.Add(addBtn);
+            addBtn.Click += new RoutedEventHandler(Add_Btn_Click);
         }
+
         private void DisplayExpenses(DataGrid dataGrid, int pageNumber, string category)
         {
             dataGrid.ItemsSource = Repository.DisplayExpensePage(pageNumber, category);
         }
         private void Page_Btn_Click(object sender, RoutedEventArgs e)
         {
+            foreach (var btn in _listOfButtons)
+            {
+                btn.FontWeight = FontWeights.Light;
+            }
+
+            var thisBtn = (Button)sender;
+            thisBtn.FontWeight = FontWeights.Heavy;
+
             var pageNumber = int.Parse(((Button)sender).Content.ToString());
 
-            currentPage.Content = "Page: " + pageNumber.ToString();
-            DisplayExpenses(dataGrid, pageNumber, Name);
+            DisplayExpenses(_dataGrid, pageNumber, Name);
         }
         private void Add_Btn_Click(object sender, RoutedEventArgs e)
         {

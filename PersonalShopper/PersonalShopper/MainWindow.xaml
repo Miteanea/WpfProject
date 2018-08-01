@@ -7,7 +7,7 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         mc:Ignorable="d"
         
-        Title="Personal Shopper"  MinHeight="650" MinWidth="650" Background="LightGray"
+        Title="Personal Shopper"  MinHeight="650" MinWidth="750" Background="LightGray"
         WindowStartupLocation="CenterScreen" ResizeMode="CanResize">
 
     <Window.Resources>
@@ -42,7 +42,7 @@
 
     </Window.Resources>
     <Border Padding="10">
-        <TabControl Name="TabControl">
+        <TabControl Name="TabControl" SelectionChanged="UpdateGraphs">
             <TabItem Header="Graphs">
                 <Grid>
                     <Grid.RowDefinitions>
