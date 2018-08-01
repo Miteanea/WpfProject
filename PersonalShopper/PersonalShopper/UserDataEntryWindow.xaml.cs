@@ -42,7 +42,6 @@ namespace PersonalShopper
             PriceBlock.Foreground = new SolidColorBrush(Colors.Red);
             UpdateSumBox();
         }
-
         private void UpdateSumBox()
         {
             var goodP = decimal.TryParse(Price.Text, out decimal p);
@@ -61,7 +60,6 @@ namespace PersonalShopper
                 SumBox.Text = "Calculating...";
             }
         }
-
         private void CheckFormat(bool goodP, bool goodQ)
         {
             if (goodP)
@@ -73,7 +71,6 @@ namespace PersonalShopper
                 QuantityBlock.Foreground = new SolidColorBrush(Colors.Green);
             }
         }
-
         private void NameBox_TextChanged(object sender, TextChangedEventArgs e)
         {
 
@@ -84,7 +81,6 @@ namespace PersonalShopper
                 ExpenseNameBlock.Foreground = new SolidColorBrush(Colors.Green);
             }
         }
-
         private void DateBoxTextChanged(object sender, TextChangedEventArgs e)
         {
             DateBlock.Foreground = new SolidColorBrush(Colors.Red);
@@ -118,7 +114,7 @@ namespace PersonalShopper
                     Category = CategoryTextBox.Text
 
                 };
-
+                
                 Repository.AddExpense(newExp);
                 MessageBox.Show("Expense Saved To Database!");
                 this.Close();
@@ -129,6 +125,4 @@ namespace PersonalShopper
             }
         }
     }
-
-
 }

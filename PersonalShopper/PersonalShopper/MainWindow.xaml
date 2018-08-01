@@ -7,12 +7,12 @@
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         mc:Ignorable="d"
         
-        Title="Personal Shopper"  MinHeight="650" MinWidth="900" Background="LightGray"
+        Title="Personal Shopper"  MinHeight="650" MinWidth="650" Background="LightGray"
         WindowStartupLocation="CenterScreen" ResizeMode="CanResize">
 
     <Window.Resources>
         <Style TargetType="{x:Type StackPanel}">
-            <Setter Property="Background" Value="Beige"/>
+            <Setter Property="Background" Value="Transparent"/>
             <Setter Property="Margin" Value="0"/>
             <Setter Property="Width" Value="Auto"/>
             <Setter Property="Height" Value="Auto"/>
@@ -22,70 +22,79 @@
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
+        
+        <Style TargetType="{x:Type DataGrid}">
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style TargetType="{x:Type Expander}">
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Padding" Value="5"/>
+        </Style>
 
         <Style TargetType="{x:Type Button}">
             <Setter Property="Margin" Value="5" />
             <Setter Property="Padding" Value="5" />
-            <Setter Property="Height" Value="35" />
-            <Setter Property="Width" Value="105" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Width" Value="85" />
         </Style>
 
     </Window.Resources>
     <Border Padding="10">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" MinHeight="250"/>
-                <RowDefinition Height="*" MinHeight="250"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" MinWidth="180"/>
-                <ColumnDefinition Width="*" MinWidth="660"/>
-            </Grid.ColumnDefinitions>
+        <TabControl Name="TabControl">
+            <TabItem Header="Graphs">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" MinHeight="250"/>
+                        <RowDefinition Height="*" MinHeight="250"/>
+                    </Grid.RowDefinitions>
 
-            <!-- Yearly Expenses Graph-->
-            <Border  BorderBrush="Black" Grid.Column="1" Grid.Row="0" BorderThickness="1" Margin="10"
-                      MinWidth="560" Width="Auto" MinHeight="191" Height="Auto" Name="BorderGraph"/>
-
-            <!-- Pie Chart Graph-->
-            <Grid x:Name="PieChartGrid" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Border BorderBrush="Black" BorderThickness="1" Padding="15" Margin="10"
-                            Visibility="Visible" Background="White">
-                    <Grid Name ="PieBaseGrid" Width="Auto" Height="Auto">
-                        
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Name ="LabelRow" Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-
-                        <Label Name="PieGraphLabel" Grid.ColumnSpan="2" Grid.Row="0" FontSize="22"/>
-
-                        <Grid Name="PieGraph" Margin="10 0 10 0"
-                              Grid.Column="0" Grid.Row="1"></Grid>
-                        <Grid Name="LegendGrid" 
-                              Grid.Column="1" Grid.Row="1">
-                            <StackPanel  Name="GrapLegend" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Background="Transparent" >
-                                <Grid Name ="LegendEntryGrid" VerticalAlignment="Center" />
-                            </StackPanel>
-                        </Grid>
+                    <!-- Yearly Expenses Graph-->
+                    <Grid Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Border  BorderBrush="Black" Grid.Row="0" BorderThickness="1" Margin="10" Name="BorderGraph"/>
                     </Grid>
-                </Border>
-            </Grid>
 
-            <Grid Name="ExpanderGrid" Grid.Column="1" Grid.RowSpan="2">
-                <ScrollViewer Name="ScrollView" Visibility="Hidden">
-                    <StackPanel Name="ExpanderStack" Visibility="Hidden"/>
-                </ScrollViewer>
-            </Grid>
-            <!-- Buttons Panel-->
-            <Grid x:Name="ButtonsPanel" Grid.Column="0" Grid.Row="0" Margin ="10" Background="Transparent" >
-                <StackPanel VerticalAlignment="Center" Background="Transparent">
-                    <Button Content="Expense Details" Click="ExpanderView" Width="Auto"/>
-                </StackPanel>
-            </Grid>
-        </Grid>
+                    <!-- Pie Chart Graph-->
+                    <Grid x:Name="PieChartGrid" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <Border BorderBrush="Black" BorderThickness="1" Padding="15" Margin="10"
+                            Visibility="Visible" Background="White">
+                            <Grid Name ="PieBaseGrid" Width="Auto" Height="Auto">
+
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Name ="LabelRow" Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Name="PieGraphLabel" Grid.ColumnSpan="2" Grid.Row="0" FontSize="22"/>
+
+                                <Grid Name="PieGraph" Margin="10 0 10 0"
+                              Grid.Column="0" Grid.Row="1"></Grid>
+                                <Grid Name="LegendGrid" 
+                              Grid.Column="1" Grid.Row="1">
+                                    <StackPanel  Name="GrapLegend" Orientation="Vertical" HorizontalAlignment="Left" VerticalAlignment="Center" Background="Transparent" >
+                                        <Grid Name ="LegendEntryGrid" VerticalAlignment="Center" />
+                                    </StackPanel>
+                                </Grid>
+                            </Grid>
+                        </Border>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="ExpanderView" >
+                <Grid Name="ExpanderGrid" Grid.Column="1" Grid.RowSpan="2">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="10*"/>
+                        <ColumnDefinition Width="357*"/>
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer Name="ScrollView" Grid.ColumnSpan="2" />
+                    <StackPanel Name="ExpanderStack" Grid.ColumnSpan="2"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
     </Border>
 </Window>

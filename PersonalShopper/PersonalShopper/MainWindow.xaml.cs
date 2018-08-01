@@ -22,10 +22,24 @@ namespace PersonalShopper
             var config = CreateConfiguration();
 
             Repository = new DbOperations(config);
-            
+
+
+            TabControl.SelectionChanged += new SelectionChangedEventHandler(ExpanderView);
+            TabControl.SelectionChanged += new SelectionChangedEventHandler(UpdateGraphs);
+
             CreatePieChart();
             CreateBarGraph();
+
         }
+        static PieChartModel pie;
+
+
+        private void UpdateGraphs(object sender, RoutedEventArgs e)
+        {
+            UpdateBarGraph();
+            UpdatePieChart();
+        }
+
         public IDbOperations Repository { get; set; }
         private static IConfiguration CreateConfiguration()
         {
@@ -34,53 +48,49 @@ namespace PersonalShopper
 
             return Configuration.Instance;
         }
-        private void CreateBarGraph()
+
+        public void CreateBarGraph()
         {
             BorderGraph.Child = new BarGraphModel(Repository).BarGraphCanvas;
         }
+        private void UpdateBarGraph()
+        {
+            CreateBarGraph();
+        }
         private void CreatePieChart()
         {
-            var pie = new PieChartModel(Repository);
+            pie = new PieChartModel(Repository);
             PieGraph.Children.Add(pie.PieGraph);
             LegendEntryGrid.Children.Add(pie.LegendEntry);
             PieGraphLabel.Content = pie.PieGraphLabel.Content;
 
+        }
+        private void UpdatePieChart()
+        {
+            PieGraph.Children.Clear();
+            LegendEntryGrid.Children.Clear();
+
+            CreatePieChart();
         }
 
         private void ExpanderView(object sender, RoutedEventArgs e)
         {
             if (ExpanderStack.Children.Count == 0)
             {
-                var backBtn = new Button { Content = "Back", Name = "backBtn" };
-                backBtn.Click += Back_Btn_Click;
-
                 var listCategories = Repository.GetCategories();
                 var slices = new PieChartModel(Repository).slices;
 
                 foreach (var item in listCategories)
                 {
-                    var expander = new ExpanderModel(item, MatchColor(item, slices),Repository).Expander;
+                    var expander = new ExpanderModel(item, MatchColor(item, slices), Repository).Expander;
+                    expander.Name = $"{expander.Header.ToString()}";
 
                     ExpanderStack.Children.Add(expander);
                 }
-                ExpanderStack.Children.Add(backBtn);
-            }
-            if (ExpanderStack.Visibility == Visibility.Hidden)
-            {
-                ExpanderStack.Visibility = Visibility.Visible;
-                ScrollView.Visibility = Visibility.Visible;
-                PieChartGrid.Visibility = Visibility.Hidden;
-                BorderGraph.Visibility = Visibility.Hidden;
+
             }
         }
-        private void Back_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            ExpanderStack.Visibility = Visibility.Hidden;
-            ScrollView.Visibility = Visibility.Hidden;
-            PieChartGrid.Visibility = Visibility.Visible;
-            BorderGraph.Visibility = Visibility.Visible;
-        }        
- 
+
         private Brush MatchColor(string category, List<Pie> pies)
         {
             Brush color = Brushes.Transparent;
@@ -108,7 +118,9 @@ namespace PersonalShopper
 
             return listOfBrushes;
         }
-    }   
+
+    }
+
 }
 
 

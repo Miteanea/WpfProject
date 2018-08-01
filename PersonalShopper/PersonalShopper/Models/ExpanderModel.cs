@@ -12,20 +12,27 @@ namespace PersonalShopper.Models
 {
     class ExpanderModel
     {
+
+
         public ExpanderModel(string item, Brush color, IDbOperations repository)
         {
+            Name = item;
             Repository = repository;
             Expander = new Expander
             { Header = item, Background = color };
             GenerateExpanderBody(Expander);
         }
+        private DataGrid dataGrid { get; set; }
+        private Grid expanderGrid { get; set; }
+        private Label currentPage { get; set; }
 
+        public string Name { get; set; }
         public IDbOperations Repository { get; }
         public Expander Expander { get; set; }
 
         private void GenerateExpanderBody(Expander expander)
         {
-            var expanderGrid = new Grid();
+            expanderGrid = new Grid();
 
             expander.Content = expanderGrid;
             var category = expander.Header.ToString();
@@ -46,11 +53,11 @@ namespace PersonalShopper.Models
             addBtn.Click += new RoutedEventHandler(Add_Btn_Click);
 
             int pageNumber = 1;
-            var currentPage = new Label { Content = "Page: " + pageNumber.ToString(), FontSize = 16 };
+            currentPage = new Label { Content = "Page: " + pageNumber.ToString(), FontSize = 16 };
             currentPage.HorizontalAlignment = HorizontalAlignment.Right;
             addBtnStack.Children.Add(currentPage);
 
-            var dataGrid = new DataGrid();
+            dataGrid = new DataGrid();
             expanderGrid.Children.Add(dataGrid);
             Grid.SetRow(dataGrid, 1);
             Grid.SetColumn(dataGrid, 0);
@@ -81,30 +88,14 @@ namespace PersonalShopper.Models
         }
         private void Page_Btn_Click(object sender, RoutedEventArgs e)
         {
-            var thisBtn = (Button)sender;
-            var pageNumber = int.Parse(thisBtn.Content.ToString());
+            var pageNumber = int.Parse(((Button)sender).Content.ToString());
 
-            var BtnsPanel = (StackPanel)(thisBtn).Parent;
-            var centerBtnsPanel = (StackPanel)((StackPanel)BtnsPanel.Parent);
-            var grid = (Grid)(((StackPanel)centerBtnsPanel).Parent);
-            var dataGrid = (DataGrid)grid.Children[1];
-
-            var expander = (Expander)grid.Parent;
-            var new1 = (Grid)expander.Content;
-            var stack1 = (StackPanel)new1.Children[0];
-            var currentPageLabel = (Label)stack1.Children[1];
-
-            currentPageLabel.Content = "Page: " + pageNumber.ToString();
-            DisplayExpenses(dataGrid, pageNumber, expander.Header.ToString());
+            currentPage.Content = "Page: " + pageNumber.ToString();
+            DisplayExpenses(dataGrid, pageNumber, Name);
         }
         private void Add_Btn_Click(object sender, RoutedEventArgs e)
         {
-            var stack = (StackPanel)((Button)sender).Parent;
-            var grid = (Grid)((StackPanel)stack).Parent;
-            var expander = (Expander)((Grid)grid).Parent;
-
-            var userDataEntryWindow = new UserDataEntryWindow(expander.Header.ToString(), Repository);
-
+            var userDataEntryWindow = new UserDataEntryWindow(Name, Repository);
             userDataEntryWindow.Show();
         }
     }

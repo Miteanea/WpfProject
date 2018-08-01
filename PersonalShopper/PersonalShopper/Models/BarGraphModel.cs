@@ -16,7 +16,7 @@ namespace PersonalShopper.ViewModel
         public BarGraphModel(IDbOperations repository)
         {
             Repository = repository;
-            BarGraphCanvas = new Canvas { Background = Brushes.White, MinWidth = 560, MinHeight = 190 };
+            BarGraphCanvas = new Canvas { Background = Brushes.White, MinWidth = 650, MinHeight = 250 };
             CreateBarGraph();
         }        
         public IDbOperations Repository { get; private set; }
@@ -38,7 +38,7 @@ namespace PersonalShopper.ViewModel
         {
             double init = 40;
             Label label, xAxisLabel;
-
+            var color = (SolidColorBrush)(new BrushConverter().ConvertFrom("#92AFD7"));
             var maxExp = barGraphData.Select(x => x.MonthlyExpenditure).Max();
 
             foreach (var month in barGraphData)
@@ -49,7 +49,7 @@ namespace PersonalShopper.ViewModel
                     Width = 25,
                     Height = ((double)(month.MonthlyExpenditure / maxExp)) * 125,
                     Margin = new Thickness(10, 5, 10, 5),
-                    Fill = Brushes.MediumVioletRed,
+                    Fill = color,
                 };
 
                 Canvas.SetLeft(bar, init);
