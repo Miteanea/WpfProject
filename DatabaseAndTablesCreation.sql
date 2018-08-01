@@ -1,3 +1,5 @@
+drop database [Personal Shopper]
+
  CREATE DATABASE [Personal Shopper]
  GO
 

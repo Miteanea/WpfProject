@@ -6,7 +6,7 @@
         xmlns:toolkit="clr-namespace:Xceed.Wpf.Toolkit.Core;assembly=Xceed.Wpf.Toolkit"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit" 
         mc:Ignorable="d"
-        Icon="e:\repos\wpfproject\icon.png"
+        
         Title="Personal Shopper"  MinHeight="650" MinWidth="900" Background="LightGray"
         WindowStartupLocation="CenterScreen" ResizeMode="CanResize">
 

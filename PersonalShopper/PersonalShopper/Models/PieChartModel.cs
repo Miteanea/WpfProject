@@ -63,12 +63,12 @@ namespace PersonalShopper.Models
         {
 
             var listOfBrushes = new List<SolidColorBrush> {
-                new SolidColorBrush(Colors.Red),
-                new SolidColorBrush(Colors.Gray),
-                new SolidColorBrush(Colors.Green),
-                new SolidColorBrush(Colors.Blue),
+                new SolidColorBrush(Colors.LightPink),
+                new SolidColorBrush(Colors.LightGray),
+                new SolidColorBrush(Colors.LightGreen),
+                new SolidColorBrush(Colors.LightBlue),
                 new SolidColorBrush(Colors.Chocolate),
-                new SolidColorBrush(Colors.DarkGoldenrod),
+                new SolidColorBrush(Colors.Khaki),
                 new SolidColorBrush(Colors.DarkMagenta),
                 new SolidColorBrush(Colors.Purple) };
 
