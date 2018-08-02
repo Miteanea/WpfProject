@@ -112,16 +112,18 @@ namespace PersonalShopper
                     Price = decimal.Parse(Price.Text),
                     Date = DateTime.Parse(DateBox.Text),
                     Category = CategoryTextBox.Text
-
                 };
                 
                 Repository.AddExpense(newExp);
-                MessageBox.Show("Expense Saved To Database!");
+                PersonalShopper.MainWindow.AppWindow.UpdateExpanderView( newExp.Category);
+
+                MessageBox.Show("Expense Saved To Database!", "Database", MessageBoxButton.OK, MessageBoxImage.Information);
+                
                 this.Close();
             }
             else
             {
-                MessageBox.Show("Not all Inputs are entered correctly");
+                MessageBox.Show("Not all Inputs are entered correctly", "Database", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

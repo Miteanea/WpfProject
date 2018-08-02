@@ -15,10 +15,12 @@ namespace PersonalShopper
 {
     public partial class MainWindow : Window
     {
+        public static MainWindow AppWindow;
         public MainWindow()
         {
             InitializeComponent();
 
+            AppWindow = this;
             var config = CreateConfiguration();
             Repository = new DbOperations(config);
 
@@ -36,6 +38,7 @@ namespace PersonalShopper
 
             return Configuration.Instance;
         }
+        private List<ExpanderModel> expanderModels { get; set; }
 
         private void UpdateGraphs(object sender, RoutedEventArgs e)
         {
@@ -64,8 +67,9 @@ namespace PersonalShopper
 
             CreatePieChart();
         }
-        private void CreateExpanderView()
+        public void CreateExpanderView()
         {
+            expanderModels = new List<ExpanderModel>();
             if (ExpanderStack.Children.Count == 0)
             {
                 var listCategories = Repository.GetCategories();
@@ -73,10 +77,20 @@ namespace PersonalShopper
 
                 foreach (var item in listCategories)
                 {
-                    var expander = new ExpanderModel(item, MatchColor(item, slices), Repository).Expander;
-                    expander.Name = $"{expander.Header.ToString()}";
-
-                    ExpanderStack.Children.Add(expander);
+                    var expander = new ExpanderModel(item, MatchColor(item, slices), Repository);
+                    expanderModels.Add(expander);
+                    
+                    ExpanderStack.Children.Add(expander.Expander);
+                }
+            }
+        }
+        public void UpdateExpanderView(string category)
+        {
+            foreach (var item in expanderModels)
+            {
+                if (item.Name == category)
+                {
+                    item.UpdateExpander();
                 }
             }
         }

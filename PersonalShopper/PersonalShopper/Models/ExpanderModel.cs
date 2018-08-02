@@ -24,16 +24,17 @@ namespace PersonalShopper.Models
         }
 
         private StackPanel _btnPanel { get; set; }
-        private List<Button> _listOfButtons {get;set;}
+        private List<Button> _listOfButtons { get; set; }
         private DataGrid _dataGrid { get; set; }
-        private Grid _expanderGrid { get; set; }        
+        private Grid _expanderGrid { get; set; }
         private int _pageNumber { get; set; }
         private StackPanel _addBtnStack { get; set; }
         private StackPanel _centerButtonsPanel { get; set; }
-
+        public int numberOfButtons { get; set; }
         public string Name { get; set; }
         public IDbOperations Repository { get; }
         public Expander Expander { get; set; }
+
 
         private void GenerateExpanderBody(Expander expander)
         {
@@ -47,7 +48,7 @@ namespace PersonalShopper.Models
 
             ConfigureGrid(expanderGrid);
 
-            var numberOfButtons = Repository.GetNumberOfButtons(Name);
+            numberOfButtons = Repository.GetNumberOfButtons(Name);
 
             CreateButtons(numberOfButtons);
 
@@ -61,12 +62,12 @@ namespace PersonalShopper.Models
 
             expanderGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
-            _dataGrid = new DataGrid { HorizontalAlignment = HorizontalAlignment.Center, MinWidth = 500};
+            _dataGrid = new DataGrid { HorizontalAlignment = HorizontalAlignment.Center, MinWidth = 500 };
             expanderGrid.Children.Add(_dataGrid);
             Grid.SetRow(_dataGrid, 0);
             Grid.SetColumn(_dataGrid, 0);
 
-            _centerButtonsPanel = new StackPanel { Orientation = Orientation.Vertical};
+            _centerButtonsPanel = new StackPanel { Orientation = Orientation.Vertical };
             _btnPanel = new StackPanel { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center };
             expanderGrid.Children.Add(_centerButtonsPanel);
             Grid.SetRow(_centerButtonsPanel, 1);
@@ -121,6 +122,36 @@ namespace PersonalShopper.Models
         {
             var userDataEntryWindow = new UserDataEntryWindow(Name, Repository);
             userDataEntryWindow.Show();
+        }
+
+        public void UpdateExpander()
+        {
+            UpdateDatagrid();
+            UpdateButtons();
+        }
+
+        private void UpdateDatagrid()
+        {
+            DisplayExpenses(_dataGrid, _pageNumber, Name);
+        }
+        private void UpdateButtons()
+        {
+            _btnPanel.Children.Clear();
+            _listOfButtons.Clear();
+            numberOfButtons = Repository.GetNumberOfButtons(Name);
+
+            for (int i = 1; i <= numberOfButtons; i++)
+            {
+                var btn = new Button { Name = $"btn{i}", Content = $"{i}", Width = double.NaN, Height = double.NaN };
+                btn.Click += new RoutedEventHandler(Page_Btn_Click);
+                _listOfButtons.Add(btn);
+            }
+            _listOfButtons[0].FontWeight = FontWeights.Heavy;
+
+            foreach (var btn in _listOfButtons)
+            {
+                _btnPanel.Children.Add(btn);
+            }
         }
     }
 }
